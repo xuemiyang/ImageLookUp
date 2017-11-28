@@ -75,7 +75,6 @@ static ImageNetworkLoadHandler imageNetworkLoadHandler;
 @implementation ImageScrollView
 - (instancetype)initWithItem:(ImageItem *)item {
     if (self = [super initWithFrame:UIScreen.mainScreen.bounds]) {
-        __weak typeof(self) weakSelf = self;
         _item = item;
         self.delegate = self;
         self.maximumZoomScale = 3;
@@ -89,19 +88,11 @@ static ImageNetworkLoadHandler imageNetworkLoadHandler;
         if ([item.imageData isKindOfClass:[UIImage class]]) {
             [self setImage:item.imageData toImageView:imageView];
         } else if ([item.imageData isKindOfClass:[NSString class]]) {
-            NSURL *url = [NSURL URLWithString:item.imageData];
-            if (url && imageNetworkLoadHandler) {
-                CALayer *proLayer = [self progressLayer];
-                [self.layer addSublayer:proLayer];
-                __weak typeof(imageView) weakImageView = imageView;
-                __weak typeof(proLayer) weakProLayer = proLayer;
-                imageNetworkLoadHandler(imageView, url, item.image, ^(UIImage *image) {
-                    if (image && weakImageView && weakProLayer) {
-                        [weakSelf setImage:image toImageView:weakImageView];
-                    }
-                    [weakProLayer removeFromSuperlayer];
-                });
-            }
+            [self setUrl:[NSURL URLWithString:item.imageData] placeholder:item.image toImageView:imageView];
+        } else if ([item.imageData isKindOfClass:[NSData class]]) {
+            [self setImage:[UIImage imageWithData:item.imageData] toImageView:imageView];
+        } else if ([item.imageData isKindOfClass:[NSURL class]]) {
+            [self setUrl:item.imageData placeholder:item.image toImageView:imageView];
         }
         
         UITapGestureRecognizer *tap1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap1:)];
@@ -117,7 +108,26 @@ static ImageNetworkLoadHandler imageNetworkLoadHandler;
 }
 
 #pragma mark - private
+- (void)setUrl:(NSURL *)url placeholder:(UIImage *)placeholder toImageView:(UIImageView *)imageView {
+    if (url && imageNetworkLoadHandler) {
+        CALayer *proLayer = [self progressLayer];
+        [self.layer addSublayer:proLayer];
+        __weak typeof(self) weakSelf = self;
+        __weak typeof(imageView) weakImageView = imageView;
+        __weak typeof(proLayer) weakProLayer = proLayer;
+        imageNetworkLoadHandler(imageView, url, placeholder, ^(UIImage *image) {
+            if (image && weakImageView && weakProLayer) {
+                [weakSelf setImage:image toImageView:weakImageView];
+            }
+            [weakProLayer removeFromSuperlayer];
+        });
+    }
+}
+
 - (void)setImage:(UIImage *)image toImageView:(UIImageView *)imageView {
+    if (!image) {
+        return;
+    }
     CGFloat viewW = self.frame.size.width;
     CGFloat viewH = self.frame.size.height;
     CGRect imageViewFrame = imageView.frame;
