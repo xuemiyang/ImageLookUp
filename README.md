@@ -32,20 +32,11 @@
 
 ### 2.设置图片下载的handler.
 ```objc
-[ImageLookUpView setImageNetworkLoadHandler:^(UIImageView * _Nonnull imageView,
-NSURL * _Nonnull url,
-UIImage * _Nullable placeholder,
-void (^ _Nonnull completionHandler)(UIImage * _Nullable)) {
-  [imageView sd_setImageWithURL:url
-  placeholderImage:placeholder
-  options:SDWebImageRetryFailed
-  completed:^(UIImage * _Nullable image,
-  NSError * _Nullable error,
-  SDImageCacheType cacheType,
-  NSURL * _Nullable imageURL) {
-            completionHandler(image);
-      }];
- }];
+[ImageLookUpView setImageNetworkLoadHandler:^(UIImageView * _Nonnull imageView, NSURL * _Nonnull url, UIImage * _Nullable placeholder, void (^ _Nonnull completionHandler)(UIImage * _Nullable)) {
+    [imageView sd_setImageWithURL:url placeholderImage:placeholder options:SDWebImageRetryFailed completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+        completionHandler(image);
+    }];
+}];
  ```
 
 此处为SDWebImage的图片下载，也可改为其他图片下载框架。
