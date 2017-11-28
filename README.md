@@ -10,16 +10,16 @@
   imageData可为UIImage、NSString的NSURL字符串。imageView为需要放大浏览的image视图(UIImage、UIButton)，image为放大浏览的image视图的image
   数据。 isSelect表明是否是选择该视图为显示视图。
 1.2 使用NSString创建。
-  [_items addObject:[[ImageItem alloc] initWithImageData:urlString imageView:imageView image:imageView.image isSelect:NO]]; 
+  [_items addObject:[[ImageItem alloc] initWithImageData:urlString imageView:imageView image:imageView.image isSelect:NO]];
   imageData可为UIImage、NSString的NSURL字符串。imageView为需要放大浏览的image视图(UIImage、UIButton)，image为放大浏览的image视图的image
   数据。 isSelect表明是否是选择该视图为显示视图。
 
 2.设置图片下载的handler.
   [ImageLookUpView setImageNetworkLoadHandler:^(UIImageView * _Nonnull imageView, NSURL * _Nonnull url, UIImage * _Nullable placeholder, void (^ _Nonnull completionHandler)(UIImage * _Nullable)) {
-        [imageView sd_setImageWithURL:url placeholderImage:placeholder options:SDWebImageRetryFailed completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+  [imageView sd_setImageWithURL:url placeholderImage:placeholder options:SDWebImageRetryFailed completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
             completionHandler(image);
-        }];
-  }];
+      }];
+ }];
   此处为SDWebImage的图片下载，也可改为其他图片下载框架。
 
 3.浏览图片。
