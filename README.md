@@ -8,10 +8,7 @@
 
 #### 1.1 使用UIImage创建。
 ```objc
-[_items addObject:[[ImageItem alloc] initWithImageData:image
-        imageView:imageView
-        image:imageView.image
-        isSelect:NO]];
+[_items addObject:[[ImageItem alloc] initWithImageData:image imageView:imageView image:imageView.image isSelect:NO]];
 ```
 * imageData可为UIImage、NSString的NSURL字符串。
 * imageView为需要放大浏览的image视图(UIImage、UIButton)。
@@ -20,10 +17,7 @@
 
 #### 1.2 使用NSString创建。
 ```objc
-[_items addObject:[[ImageItem alloc] initWithImageData:urlString
-        imageView:imageView
-        image:imageView.image
-        isSelect:NO]];
+[_items addObject:[[ImageItem alloc] initWithImageData:urlString imageView:imageView image:imageView.image isSelect:NO]];
 ```
 * imageData可为UIImage、NSString的NSURL字符串。
 * imageView为需要放大浏览的image视图(UIImage、UIButton)。
