@@ -13,25 +13,22 @@
         image:imageView.image
         isSelect:NO]];
 ```
-=======================
-imageData可为UIImage、NSString的NSURL字符串。
-imageView为需要放大浏览的image视图(UIImage、UIButton)。
-image为放大浏览的image视图的image数据。
-isSelect表明是否是选择该视图为显示视图。
+* imageData可为UIImage、NSString的NSURL字符串。
+* imageView为需要放大浏览的image视图(UIImage、UIButton)。
+* image为放大浏览的image视图的image数据。
+* isSelect表明是否是选择该视图为显示视图。
 
-1.2 使用NSString创建。
+#### 1.2 使用NSString创建。
 ```objc
 [_items addObject:[[ImageItem alloc] initWithImageData:urlString
         imageView:imageView
         image:imageView.image
         isSelect:NO]];
 ```
-
-========================
-imageData可为UIImage、NSString的NSURL字符串。
-imageView为需要放大浏览的image视图(UIImage、UIButton)。
-image为放大浏览的image视图的image数据。
-isSelect表明是否是选择该视图为显示视图。
+* imageData可为UIImage、NSString的NSURL字符串。
+* imageView为需要放大浏览的image视图(UIImage、UIButton)。
+* image为放大浏览的image视图的image数据。
+* isSelect表明是否是选择该视图为显示视图。
 
 ### 2.设置图片下载的handler.
 ```objc
@@ -42,7 +39,7 @@ NSURL * _Nonnull url, UIImage * _Nullable placeholder, void (^ _Nonnull completi
       }];
  }];
  ```
-====================
+
 此处为SDWebImage的图片下载，也可改为其他图片下载框架。
  
  ### 3.浏览图片。
@@ -51,6 +48,6 @@ NSURL * _Nonnull url, UIImage * _Nullable placeholder, void (^ _Nonnull completi
 ```
 
 ## 扩展。
-=====================
-你可以在源代码添加各种类型的ImageData处理。
-这里支持UIImage、NSString、NSData、NSURL。
+
+* 你可以在源代码添加各种类型的ImageData处理。
+* 这里支持UIImage、NSString、NSData、NSURL。
