@@ -102,7 +102,8 @@ static ImageNetworkLoadHandler imageNetworkLoadHandler;
         [tap1 requireGestureRecognizerToFail:tap2];
         [self addGestureRecognizer:tap2];
         UIPanGestureRecognizer *pan = [[DownPanGestureRecognizer alloc] initWithTarget:self action:@selector(pan:)];
-        [self addGestureRecognizer:pan];
+        imageView.userInteractionEnabled = YES;
+        [imageView addGestureRecognizer:pan];
     }
     return self;
 }
