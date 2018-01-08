@@ -80,6 +80,8 @@ static ImageNetworkLoadHandler imageNetworkLoadHandler;
         self.maximumZoomScale = 3;
         _duration = 0.3;
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:self.frame];
+        imageView.contentMode = item.imageView.contentMode;
+        imageView.clipsToBounds = YES;
         if (item.image) {
             [self setImage:item.image toImageView:imageView];
         }
@@ -357,9 +359,9 @@ static ImageNetworkLoadHandler imageNetworkLoadHandler;
         scrollView.frame = frame;
         scrollView.dismissHandler = ^(ImageScrollView *scrollView) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
+            CGRect rect = [scrollView.item.imageView.superview convertRect:scrollView.item.imageView.frame toView:strongSelf];
             [UIView animateWithDuration:strongSelf.duration animations:^{
                 strongSelf.alpha = 0;
-                CGRect rect = [scrollView.item.imageView.superview convertRect:scrollView.item.imageView.frame toView:strongSelf];
                 scrollView.imageView.frame = rect;
             } completion:^(BOOL finished) {
                 [strongSelf removeFromSuperview];
