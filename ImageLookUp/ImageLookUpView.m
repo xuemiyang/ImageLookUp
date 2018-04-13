@@ -343,14 +343,6 @@ static ImageNetworkLoadHandler imageNetworkLoadHandler;
     scrollView.contentSize = CGSizeMake((screenW + _dx) * items.count, screenH);
     [UIApplication.sharedApplication.keyWindow addSubview:scrollView];
     
-    UIPageControl *pageControl = [[UIPageControl alloc] init];
-    _pageControl = pageControl;
-    pageControl.numberOfPages = items.count;
-    CGRect pageControlFrame = pageControl.frame;
-    pageControlFrame.origin = CGPointMake(screenW / 2, screenH - 40);
-    pageControl.frame = pageControlFrame;
-    [self addSubview:pageControl];
-    
     __weak typeof(self) weakSelf = self;
     for (int i=0; i<items.count; i++) {
         ImageScrollView *scrollView = [[ImageScrollView alloc] initWithItem:items[i]];
@@ -361,9 +353,11 @@ static ImageNetworkLoadHandler imageNetworkLoadHandler;
             __strong typeof(weakSelf) strongSelf = weakSelf;
             CGRect rect = [scrollView.item.imageView.superview convertRect:scrollView.item.imageView.frame toView:strongSelf];
             [UIView animateWithDuration:strongSelf.duration animations:^{
+                strongSelf.pageControl.alpha = 0;
                 strongSelf.alpha = 0;
                 scrollView.imageView.frame = rect;
             } completion:^(BOOL finished) {
+                [strongSelf.pageControl removeFromSuperview];
                 [strongSelf removeFromSuperview];
                 [strongSelf.scrollView removeFromSuperview];
             }];
@@ -376,6 +370,15 @@ static ImageNetworkLoadHandler imageNetworkLoadHandler;
         };
         [_scrollView addSubview:scrollView];
     }
+    
+    UIPageControl *pageControl = [[UIPageControl alloc] init];
+    _pageControl = pageControl;
+    pageControl.numberOfPages = items.count;
+    CGRect pageControlFrame = pageControl.frame;
+    pageControlFrame.origin = CGPointMake(screenW / 2, screenH - 40);
+    pageControl.frame = pageControlFrame;
+    pageControl.hidden = items.count <= 1;
+    [UIApplication.sharedApplication.keyWindow addSubview:pageControl];
     
     [scrollView setContentOffset:CGPointMake((screenW + _dx) * index, 0) animated:NO];
     pageControl.currentPage = index;
